@@ -1,0 +1,6 @@
+# Default owners for all files
+* @github-username
+
+# Example paths (replace with real owners)
+/Assets/_Project/Scripts/ @github-username
+/.github/ @github-username

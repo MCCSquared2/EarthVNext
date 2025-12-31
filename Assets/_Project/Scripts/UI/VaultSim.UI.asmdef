@@ -1,0 +1,5 @@
+{
+    "name": "VaultSim.UI",
+    "rootNamespace": "VaultSim.UI",
+    "references": ["VaultSim.Core", "VaultSim.Gameplay", "VaultSim.Data", "VaultSim.Services"]
+}

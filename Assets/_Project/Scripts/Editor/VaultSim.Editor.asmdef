@@ -1,0 +1,7 @@
+{
+    "name": "VaultSim.Editor",
+    "rootNamespace": "VaultSim.Editor",
+    "references": ["VaultSim.Core", "VaultSim.Gameplay", "VaultSim.UI", "VaultSim.Data", "VaultSim.Services"],
+    "includePlatforms": ["Editor"],
+    "optionalUnityReferences": ["TestAssemblies"]
+}
