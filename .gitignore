@@ -1,0 +1,46 @@
+# Unity generated
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild*/
+[Bb]in/
+[Ll]ogs/
+[Pp]ackages/com.unity.*.tests/
+UserSettings/
+MemoryCaptures/
+Recordings/
+*.pidb
+*.booproj
+*.svd
+*.userprefs
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userosscache
+*.plist
+*.ds_store
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.dSYM/
+*.pdb
+*.opendb
+*.VC.db
+
+# Rider/VSCode
+.idea/
+.vscode/
+*.DotSettings.user
+
+# Collaborate
+[Aa]sset[Ss]tore/
+
+# LFS cache
+.git/lfs/
+
+# Artifacts
+Artifacts/

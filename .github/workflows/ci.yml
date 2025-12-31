@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      buildPlayer:
+        description: "Build Windows player"
+        required: false
+        default: "false"
+
+env:
+  UNITY_VERSION: 2022.3.30f1
+  PROJECT_PATH: .
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '7.0.x'
+      - name: Restore dotnet tools
+        run: dotnet new tool-manifest --force && dotnet tool install dotnet-format --version 7.0.0 --ignore-failed-sources
+      - name: Run dotnet format (validation)
+        run: dotnet format --verify-no-changes || true
+
+  test:
+    needs: format
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Git LFS
+        run: git lfs install
+      - name: Unity - Test
+        uses: game-ci/unity-test-runner@v4
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          unityVersion: ${{ env.UNITY_VERSION }}
+          projectPath: ${{ env.PROJECT_PATH }}
+          testMode: all
+          artifactsPath: Artifacts
+          checkName: Unity Tests
+          license: ${{ secrets.UNITY_LICENSE }}
+
+  build:
+    if: ${{ github.event.inputs.buildPlayer == 'true' }}
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: git lfs install
+      - name: Unity - Builder
+        uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: StandaloneWindows64
+          projectPath: ${{ env.PROJECT_PATH }}
+          versioning: Custom
+          customVersion: 0.0.1-ci
+          allowDirtyBuild: true
+          checkName: Windows Player
+          license: ${{ secrets.UNITY_LICENSE }}
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: WindowsPlayer
+          path: build
